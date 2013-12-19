@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Dambf</title>
+
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+
+		<script src="http://code.jquery.com/jquery.js"></script>
+		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+		<script src="hub.js"></script>
+	</head>
+	<body>
+
+		<div class="container" style="background-color: rgb(238, 238, 238)">
+			<div class=row>
+					<audio id="testplayer" controls>
+						<source src="http://meta.metaebene.me/media/nsfw/nsfw066-schnackenpfefferhausen.m4a" type='audio/ogg; codecs="vorbis"' />
+						<source src="http://meta.metaebene.me/media/nsfw/nsfw066-schnackenpfefferhausen.oga" type='audio/ogg; codecs="vorbis"' />
+						<source src="http://meta.metaebene.me/media/nsfw/nsfw066-schnackenpfefferhausen.mp3" type='audio/mpeg' />
+					</audio>
+					<script>
+
+					</script>
+			</div>
+		</div>
+		<div class="container">
+			<div class=row>
+					<audio id="testplayer2" controls>
+						<source src="http://meta.metaebene.me/media/nsfw/nsfw066-schnackenpfefferhausen.m4a" type='audio/ogg; codecs="vorbis"' />
+						<source src="http://meta.metaebene.me/media/nsfw/nsfw066-schnackenpfefferhausen.oga" type='audio/ogg; codecs="vorbis"' />
+						<source src="http://meta.metaebene.me/media/nsfw/nsfw066-schnackenpfefferhausen.mp3" type='audio/mpeg' />
+					</audio>
+			</div>
+		</div>
+
+		<script>
+/*var dummy = $('.dummy').detach();
+
+var tp = $('audio').dambf();
+tp.dambf('promise').done(function(){
+	console.log('yay!')
+})
+tp.dambf('promise').fail(function(){
+	console.log('nay!')
+})*/
+$(window).on('message', function( event){
+	var orig = event.originalEvent;
+	console.log("foo:1", orig.data);
+});
+
+$('audio').dambf();
+		</script>
+
+	</body>
+</html>

@@ -42,6 +42,9 @@
                  * return true if an error was detected but fixed,
                  * return false if an error could not be fixed
                  * return undefined if no error was detected
+                 *
+                 * Fx with WMF fails for AAC files with chapter marks. 
+                 * see https://bugzilla.mozilla.org/show_bug.cgi?id=909114
                  */
                 var was, dealtwithit = false, children,
                     player = $$(this);
@@ -59,7 +62,7 @@
                     }
 
                     if( dealtwithit){
-                        layer.def().notify({
+                        player.def().notify({
                             action: 'removed source',
                             src: was
                         });

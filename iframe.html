@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+
+		<script src="http://code.jquery.com/jquery.min.js"></script>
+		<script src=dambf.js></script>
+	</head>
+
+	<body>
+		<h1>'ello world!</h1>
+		<script>
+
+		(function(){
+			$(window).on('message', function( event){
+				var orig = event.originalEvent;
+				console.log("foo:", orig.data);
+				orig.source.postMessage('got it.','*');
+			});
+		})();
+
+		</script>
+	</body>
+</html>
