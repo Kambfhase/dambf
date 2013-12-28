@@ -7,18 +7,82 @@
 
 		<script src="http://code.jquery.com/jquery.min.js"></script>
 		<script src=dambf.js></script>
+
+		<link href="static/podlove-web-player.css" rel="stylesheet" media="screen" type="text/css" />
+
+		<script src="static/podlove-web-player.js"></script>
 	</head>
 
 	<body>
-		<h1>'ello world!</h1>
+		<audio id="mainplayer" controls>
+
+		</audio>
 		<script>
 
 		(function(){
+
 			$(window).on('message', function( event){
 				var orig = event.originalEvent;
-				console.log("foo:", orig.data);
-				orig.source.postMessage('got it.','*');
+				console.log("[iframe] recieved: ", orig.data.cmd, orig.data.arg);
+
+				if( orig.data.cmd == 'sources'){
+					$.each(orig.data.arg,function(i, val){
+						$('<source>',{
+							src: val.src,
+							type: val.type
+						}).appendTo('#mainplayer');
+					});
+				}
+
+				if( orig.data.cmd == 'podlove'){
+					console.log('podlove this: ', orig.data.arg)
+					$('#mainplayer').podlovewebplayer(orig.data.arg);
+
+					var config = { attributes: true, subtree: true, attributeFilter: ['class', 'style','height'] };
+					var lastHeight = 0;
+
+					var mut = new MutationObserver(function(arg){
+						//console.dir(arg)
+							//console.log("foo", e.target)
+							console.log($(document.body).height()-lastHeight);
+							setTimeout(function(){
+								orig.source.postMessage({
+									cmd: 'resize',
+									arg: $(document.body).height()
+								},'*');
+							}, 5)
+							lastHeight = $(document.body).height()
+					});
+
+					mut.observe( $('.podlovewebplayer_wrapper').get(0), config);
+
+/*
+					$('a.showcontrols').on('click',function(){
+						orig.source.postMessage({
+							cmd: 'resize',
+							arg: $('.podlovewebplayer_timecontrol').hasClass('active') ? '+=25px' : '-=25px'
+						},'*');
+					})
+
+					$('a.showsharebuttons').on('click',function(){
+						orig.source.postMessage({
+							cmd: 'resize',
+							arg: $('.podlovewebplayer_sharebuttons').hasClass('active') ? '+=25px' : '-=25px'
+						},'*');
+					})
+
+					$('a.showdownloadbuttons').on('click',function(){
+						orig.source.postMessage({
+							cmd: 'resize',
+							arg: $(this).hasClass('active') ? '+=25px' : '-=25px'
+						},'*');
+					}); */
+				}
 			});
+
+			window.top.postMessage({
+				cmd: 'ready'
+			}, '*');
 		})();
 
 		</script>
