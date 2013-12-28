@@ -38,23 +38,39 @@
 					console.log('podlove this: ', orig.data.arg)
 					$('#mainplayer').podlovewebplayer(orig.data.arg);
 
-					var config = { attributes: true, subtree: true, attributeFilter: ['class', 'style','height'] };
+					var config = { attributes: true, subtree: false, attributeFilter: ['class', 'style','height'] };
 					var lastHeight = 0;
 
-					var mut = new MutationObserver(function(arg){
+					(function bla(){
+						var neuheight = $(document.body).height();
+						if( lastHeight !=  neuheight){
+							orig.source.postMessage({
+								cmd: 'resize',
+								arg: neuheight
+							},'*');
+						}
+
+						lastHeight = neuheight;
+						
+						requestAnimationFrame(bla)
+					})();
+
+			
+
+/*					var mut = new MutationObserver(function(arg){
 						//console.dir(arg)
-							//console.log("foo", e.target)
-							console.log($(document.body).height()-lastHeight);
-							setTimeout(function(){
-								orig.source.postMessage({
-									cmd: 'resize',
-									arg: $(document.body).height()
-								},'*');
-							}, 5)
-							lastHeight = $(document.body).height()
+						//console.log("foo", e.target)
+						console.log($(document.body).height()-lastHeight);
+						setTimeout(function(){
+							orig.source.postMessage({
+								cmd: 'resize',
+								arg: $(document.body).height()
+							},'*');
+						}, 50);
+						lastHeight = $(document.body).height()
 					});
 
-					mut.observe( $('.podlovewebplayer_wrapper').get(0), config);
+					mut.observe( $('.podlovewebplayer_wrapper').get(0), config);*/
 
 /*
 					$('a.showcontrols').on('click',function(){

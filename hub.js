@@ -130,15 +130,13 @@
 				}
 
 				if( orig.data.cmd == 'resize'){
-						console.log("resizing!")
-						if( false){
-							neu.stop(true,true).animate({height:orig.data.arg,duration:70, easing:"linear"});
-						} else 
-						setTimeout(function(){
-
+					console.log("resizing!")
+					/*if( false){
+						neu.stop(true,true).animate({height:orig.data.arg,duration:70, easing:"linear"});
+					} else */
+					//setTimeout(function(){
 						neu.height(orig.data.arg);
-						},10)
-
+					//},10)
 				}
 			})
 
