@@ -4,6 +4,13 @@
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+		<style type="text/css">
+
+iframe {
+	border: none;
+}
+
+		</style>
 
 		<script src="http://code.jquery.com/jquery.min.js"></script>
 		<script src=dambf.js></script>
@@ -37,68 +44,30 @@
 				if( orig.data.cmd == 'podlove'){
 					console.log('podlove this: ', orig.data.arg)
 					$('#mainplayer').podlovewebplayer(orig.data.arg);
-
-					var config = { attributes: true, subtree: false, attributeFilter: ['class', 'style','height'] };
-					var lastHeight = 0;
-
-					(function bla(){
-						var neuheight = $(document.body).height();
-						if( lastHeight !=  neuheight){
-							orig.source.postMessage({
-								cmd: 'resize',
-								arg: neuheight
-							},'*');
-						}
-
-						lastHeight = neuheight;
-						
-						requestAnimationFrame(bla)
-					})();
-
-			
-
-/*					var mut = new MutationObserver(function(arg){
-						//console.dir(arg)
-						//console.log("foo", e.target)
-						console.log($(document.body).height()-lastHeight);
-						setTimeout(function(){
-							orig.source.postMessage({
-								cmd: 'resize',
-								arg: $(document.body).height()
-							},'*');
-						}, 50);
-						lastHeight = $(document.body).height()
-					});
-
-					mut.observe( $('.podlovewebplayer_wrapper').get(0), config);*/
-
-/*
-					$('a.showcontrols').on('click',function(){
-						orig.source.postMessage({
-							cmd: 'resize',
-							arg: $('.podlovewebplayer_timecontrol').hasClass('active') ? '+=25px' : '-=25px'
-						},'*');
-					})
-
-					$('a.showsharebuttons').on('click',function(){
-						orig.source.postMessage({
-							cmd: 'resize',
-							arg: $('.podlovewebplayer_sharebuttons').hasClass('active') ? '+=25px' : '-=25px'
-						},'*');
-					})
-
-					$('a.showdownloadbuttons').on('click',function(){
-						orig.source.postMessage({
-							cmd: 'resize',
-							arg: $(this).hasClass('active') ? '+=25px' : '-=25px'
-						},'*');
-					}); */
 				}
 			});
 
 			window.top.postMessage({
 				cmd: 'ready'
 			}, '*');
+		})();
+			
+
+		var lastHeight = 0, $body = $(document.body);
+
+		(function bla(){
+			var neuHeight = $body.height();
+
+			if( lastHeight != neuHeight){
+				window.top.postMessage({
+					cmd: 'resize',
+					arg: neuHeight
+				},'*');
+			}
+
+			lastHeight = neuHeight;
+			
+			requestAnimationFrame(bla);
 		})();
 
 		</script>
